@@ -7,21 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		665B25872AD2CD7700C74C7C /* ListCharactersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665B25862AD2CD7700C74C7C /* ListCharactersView.swift */; };
+		66A59A8E2AD4029400602044 /* ListCharactersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A59A8D2AD4029400602044 /* ListCharactersViewModel.swift */; };
+		66A59A912AD4038F00602044 /* ListCharactersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A59A902AD4038F00602044 /* ListCharactersCell.swift */; };
+		66B2E0F52AD2C91E00F752ED /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B2E0F42AD2C91E00F752ED /* LoginViewModel.swift */; };
 		66D5DA532AD1B89900871DB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D5DA522AD1B89900871DB4 /* AppDelegate.swift */; };
 		66D5DA552AD1B89900871DB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D5DA542AD1B89900871DB4 /* SceneDelegate.swift */; };
-		66D5DA572AD1B89900871DB4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D5DA562AD1B89900871DB4 /* LoginViewController.swift */; };
+		66D5DA572AD1B89900871DB4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D5DA562AD1B89900871DB4 /* LoginView.swift */; };
 		66D5DA5C2AD1B89A00871DB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66D5DA5B2AD1B89A00871DB4 /* Assets.xcassets */; };
 		66D5DA5F2AD1B89A00871DB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66D5DA5D2AD1B89A00871DB4 /* LaunchScreen.storyboard */; };
+		66E321B82AD5682400E983BA /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E321B72AD5682400E983BA /* Character.swift */; };
+		66FECB272AD48CC8000DFECC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FECB262AD48CC8000DFECC /* NetworkManager.swift */; };
+		66FECB292AD48EED000DFECC /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FECB282AD48EED000DFECC /* AuthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		665B25862AD2CD7700C74C7C /* ListCharactersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCharactersView.swift; sourceTree = "<group>"; };
+		66A59A8D2AD4029400602044 /* ListCharactersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCharactersViewModel.swift; sourceTree = "<group>"; };
+		66A59A902AD4038F00602044 /* ListCharactersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCharactersCell.swift; sourceTree = "<group>"; };
+		66B2E0F42AD2C91E00F752ED /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		66D5DA4F2AD1B89900871DB4 /* RickAndMortyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D5DA522AD1B89900871DB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66D5DA542AD1B89900871DB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		66D5DA562AD1B89900871DB4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		66D5DA562AD1B89900871DB4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		66D5DA5B2AD1B89A00871DB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66D5DA5E2AD1B89A00871DB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		66D5DA602AD1B89A00871DB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66E321B72AD5682400E983BA /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		66FECB262AD48CC8000DFECC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		66FECB282AD48EED000DFECC /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +49,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		66A59A872AD4001900602044 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				66D5DA522AD1B89900871DB4 /* AppDelegate.swift */,
+				66D5DA542AD1B89900871DB4 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		66A59A882AD4003E00602044 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				66D5DA5B2AD1B89A00871DB4 /* Assets.xcassets */,
+				66D5DA5D2AD1B89A00871DB4 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		66A59A892AD4006000602044 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				66FECB242AD48C58000DFECC /* LoginView */,
+				66A59A8C2AD4020300602044 /* ListCharactersView */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		66A59A8C2AD4020300602044 /* ListCharactersView */ = {
+			isa = PBXGroup;
+			children = (
+				665B25862AD2CD7700C74C7C /* ListCharactersView.swift */,
+				66A59A8D2AD4029400602044 /* ListCharactersViewModel.swift */,
+				66A59A8F2AD4033700602044 /* Cell */,
+			);
+			path = ListCharactersView;
+			sourceTree = "<group>";
+		};
+		66A59A8F2AD4033700602044 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				66A59A902AD4038F00602044 /* ListCharactersCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		66D5DA462AD1B89900871DB4 = {
 			isa = PBXGroup;
 			children = (
@@ -54,14 +113,40 @@
 		66D5DA512AD1B89900871DB4 /* RickAndMortyApp */ = {
 			isa = PBXGroup;
 			children = (
-				66D5DA522AD1B89900871DB4 /* AppDelegate.swift */,
-				66D5DA542AD1B89900871DB4 /* SceneDelegate.swift */,
-				66D5DA562AD1B89900871DB4 /* LoginViewController.swift */,
-				66D5DA5B2AD1B89A00871DB4 /* Assets.xcassets */,
-				66D5DA5D2AD1B89A00871DB4 /* LaunchScreen.storyboard */,
+				66A59A872AD4001900602044 /* Application */,
+				66E321B62AD567D900E983BA /* Models */,
+				66A59A892AD4006000602044 /* Screens */,
+				66FECB252AD48CAA000DFECC /* Services */,
+				66A59A882AD4003E00602044 /* Resources */,
 				66D5DA602AD1B89A00871DB4 /* Info.plist */,
 			);
 			path = RickAndMortyApp;
+			sourceTree = "<group>";
+		};
+		66E321B62AD567D900E983BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				66E321B72AD5682400E983BA /* Character.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		66FECB242AD48C58000DFECC /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				66D5DA562AD1B89900871DB4 /* LoginView.swift */,
+				66B2E0F42AD2C91E00F752ED /* LoginViewModel.swift */,
+			);
+			path = LoginView;
+			sourceTree = "<group>";
+		};
+		66FECB252AD48CAA000DFECC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				66FECB262AD48CC8000DFECC /* NetworkManager.swift */,
+				66FECB282AD48EED000DFECC /* AuthManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,9 +219,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66D5DA572AD1B89900871DB4 /* LoginViewController.swift in Sources */,
+				66B2E0F52AD2C91E00F752ED /* LoginViewModel.swift in Sources */,
+				66FECB292AD48EED000DFECC /* AuthManager.swift in Sources */,
+				66D5DA572AD1B89900871DB4 /* LoginView.swift in Sources */,
+				66A59A912AD4038F00602044 /* ListCharactersCell.swift in Sources */,
 				66D5DA532AD1B89900871DB4 /* AppDelegate.swift in Sources */,
+				66FECB272AD48CC8000DFECC /* NetworkManager.swift in Sources */,
 				66D5DA552AD1B89900871DB4 /* SceneDelegate.swift in Sources */,
+				66A59A8E2AD4029400602044 /* ListCharactersViewModel.swift in Sources */,
+				66E321B82AD5682400E983BA /* Character.swift in Sources */,
+				665B25872AD2CD7700C74C7C /* ListCharactersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
