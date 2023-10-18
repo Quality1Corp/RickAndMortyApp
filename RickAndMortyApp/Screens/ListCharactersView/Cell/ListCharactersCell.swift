@@ -10,6 +10,7 @@ import UIKit
 final class ListCharactersCell: UITableViewCell {
     
     static let identifier = "LocationCollectionViewCell"
+    private let networkManager = NetworkManager.shared
     
     lazy var contentContainerView: UIView = {
         let view = UIView()
@@ -43,8 +44,8 @@ final class ListCharactersCell: UITableViewCell {
     
     lazy var charImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 35
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -65,6 +66,20 @@ final class ListCharactersCell: UITableViewCell {
         nameLabel.text = character.name
         statusLabel.text = "Status: \(character.status)"
         genderLabel.text = "Gender: \(character.gender)"
+        
+        guard let url = URL(string: character.image) else { return }
+        
+        networkManager.fetchImage(from: url) { image in
+            switch image {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        let image = UIImage(data: data)
+                        self.charImage.image = image
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+            }
+        }
     }
     
     private func setupView() {
@@ -89,7 +104,7 @@ final class ListCharactersCell: UITableViewCell {
             contentContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
             charImage.topAnchor.constraint(equalTo: contentContainerView.topAnchor, constant: 20),
-            charImage.leadingAnchor.constraint(equalTo: contentContainerView.leadingAnchor, constant: 5),
+            charImage.leadingAnchor.constraint(equalTo: contentContainerView.leadingAnchor, constant: 10),
             charImage.bottomAnchor.constraint(equalTo: contentContainerView.bottomAnchor,constant: -20),
             charImage.widthAnchor.constraint(equalToConstant: 100),
             

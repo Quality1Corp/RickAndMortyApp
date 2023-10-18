@@ -17,7 +17,6 @@ final class ListCharactersViewModel {
             switch result {
                 case .success(let char):
                     closure(char)
-                    print(char)
                     self.characters.append(contentsOf: char.results)
                 case .failure(let error):
                     print(error)

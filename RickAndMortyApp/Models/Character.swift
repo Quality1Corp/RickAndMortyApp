@@ -12,10 +12,9 @@ struct RickAndMorty: Decodable {
 }
 
 struct Character: Decodable {
-    let id: Int
     let name: String
     let status: String
     let gender: String
     let image: String
-    let episode: [URL]
+    let episode: [String]
 }
