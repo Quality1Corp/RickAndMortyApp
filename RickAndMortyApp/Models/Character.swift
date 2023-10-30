@@ -18,3 +18,14 @@ struct Character: Decodable {
     let image: String
     let episode: [String]
 }
+
+struct Episode: Decodable {
+    let name: String
+    let date: String
+    let episode: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name, episode
+        case date = "air_date"
+    }
+}
