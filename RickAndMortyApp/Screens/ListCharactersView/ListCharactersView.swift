@@ -8,6 +8,8 @@
 import UIKit
 
 final class ListCharactersView: UITableViewController {
+    
+    private var character: RickAndMorty?
     private var viewModel = ListCharactersViewModel()
     
     override func viewDidLoad() {
@@ -21,10 +23,9 @@ final class ListCharactersView: UITableViewController {
         setupNavigationBar()
         setupView()
         
-        viewModel.fetchCharacter(from: Link.rickAndMorty.url) { [unowned self] _ in
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+        viewModel.fetchCharacter(from: Link.rickAndMortyURL.rawValue) { [unowned self] result in
+            self.character = result
+            self.tableView.reloadData()
         }
     }
     
@@ -44,6 +45,7 @@ final class ListCharactersView: UITableViewController {
     }
     
     private func setupView() {
+        tableView.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
     }
@@ -53,7 +55,7 @@ final class ListCharactersView: UITableViewController {
 extension ListCharactersView {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfCharacters()
+        character?.results.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,8 +63,8 @@ extension ListCharactersView {
             return UITableViewCell()
         }
         
-        let char = viewModel.characters[indexPath.row]
-        cell.configure(with: char)
+        let character = character?.results[indexPath.row]
+        cell.configure(with: character)
         cell.selectionStyle = .none
         return cell
     }
@@ -72,5 +74,13 @@ extension ListCharactersView {
 extension ListCharactersView {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         150
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episodeListView = EpisodeListView()
+        let selectedCharacter = character?.results[indexPath.row]
+        episodeListView.character = selectedCharacter
+        
+        navigationController?.pushViewController(episodeListView, animated: true)
     }
 }

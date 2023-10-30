@@ -62,18 +62,24 @@ final class ListCharactersCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with character: Character) {
-        nameLabel.text = character.name
-        statusLabel.text = "Status: \(character.status)"
-        genderLabel.text = "Gender: \(character.gender)"
+    func configure(with character: Character?) {
+        nameLabel.text = character?.name
+        statusLabel.text = "Status: \(character?.status ?? "")"
+        genderLabel.text = "Gender: \(character?.gender ?? "")"
         
-        guard let url = URL(string: character.image) else { return }
+        guard let url = URL(string: character?.image ?? "") else { return }
         
-        networkManager.fetchImage(from: url) { image in
-            switch image {
-                case .success(let data):
+        networkManager.fetchImage(from: url) { [unowned self] result in
+            switch result {
+                case .success(let imageData):
+                    
+                    if let cachedImageData = self.networkManager.imageCache.object(forKey: url as NSURL) {
+                        print("Данные отображены из кеша")
+                    } else {
+                        print("Данные получены из сети")
+                    }
                     DispatchQueue.main.async {
-                        let image = UIImage(data: data)
+                        let image = UIImage(data: imageData)
                         self.charImage.image = image
                     }
                 case .failure(let error):

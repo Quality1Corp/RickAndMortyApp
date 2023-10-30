@@ -9,15 +9,15 @@ import Foundation
 
 final class ListCharactersViewModel {
     
-    var characters: [Character] = []
+    var rickAndMorty: RickAndMorty?
     private let networkManager = NetworkManager.shared
     
-    func fetchCharacter(from url: URL, closure: @escaping(RickAndMorty) -> Void) {
-        networkManager.fetch(RickAndMorty.self, from: url) { [unowned self] result in
+    func fetchCharacter(from url: String, closure: @escaping(RickAndMorty) -> Void) {
+        networkManager.fetch(RickAndMorty.self, from: url) { result in
             switch result {
-                case .success(let char):
-                    closure(char)
-                    self.characters.append(contentsOf: char.results)
+                case .success(let rickAndMorty):
+                    self.rickAndMorty = rickAndMorty
+                    closure(rickAndMorty)
                 case .failure(let error):
                     print(error)
             }
@@ -25,10 +25,6 @@ final class ListCharactersViewModel {
     }
     
     func numberOfCharacters() -> Int {
-        characters.count
-    }
-    
-    func character(at index: Int) -> Character {
-        characters[index]
+        rickAndMorty?.results.count ?? 0
     }
 }
