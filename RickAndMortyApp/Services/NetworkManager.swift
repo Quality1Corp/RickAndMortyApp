@@ -21,8 +21,6 @@ final class NetworkManager {
     
     static let shared = NetworkManager()
     
-    let imageCache = NSCache<NSURL, NSData>()
-    
     private init() {}
     
     func fetch<T: Decodable>(_ type: T.Type, from url: String, with completion: @escaping(Result<T, NetworkError>) -> Void) {
@@ -47,29 +45,5 @@ final class NetworkManager {
             }
         }
         .resume()
-    }
-    
-    func fetchImage(from url: URL, completion: @escaping(Result<Data, NetworkError>) -> Void) {
-        // Проверяем наличие данных изображения в кеше
-        if let cachedImageData = imageCache.object(forKey: url as NSURL) {
-            DispatchQueue.main.async {
-                completion(.success(cachedImageData as Data))
-            }
-        }
-        
-        // Загружаем данные, если их нет в кеше
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else {
-                completion(.failure(.noData))
-                return
-            }
-            
-            // Сохраняем данные изображения в кеше
-            self.imageCache.setObject(imageData as NSData, forKey: url as NSURL)
-            
-            DispatchQueue.main.async {
-                completion(.success(imageData))
-            }
-        }
     }
 }
