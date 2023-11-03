@@ -7,6 +7,10 @@
 
 import Foundation
 
-final class SettingsViewModel {
+protocol SettingsViewModelProtocol {
     
+}
+
+final class SettingsViewModel: SettingsViewModelProtocol {
+    let authManager = AuthManager.shared
 }

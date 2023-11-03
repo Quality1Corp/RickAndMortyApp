@@ -7,8 +7,13 @@
 
 import Foundation
 
-final class EpisodeListViewModel {
-    
+protocol EpisodeListViewModelProtocol {
+    var episodes: [Episode] { get set }
+    func fetchEpisode(from url: String, closure: @escaping(Episode) -> Void)
+}
+
+final class EpisodeListViewModel: EpisodeListViewModelProtocol {
+
     var episodes: [Episode] = []
     private let networkManager = NetworkManager.shared
     

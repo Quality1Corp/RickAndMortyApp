@@ -9,25 +9,28 @@ import UIKit
 
 final class SettingsView: UIViewController {
     
+    private let viewModel = SettingsViewModel()
+    
     private lazy var logoutButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Logout", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.5955260396, green: 0.2014748454, blue: 0.1873997748, alpha: 1)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .heavy)
-        button.layer.cornerRadius = 10
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        let button = FilledButtonFactory(
+            title: "Logout",
+            color: #colorLiteral(red: 0.5955260396, green: 0.2014748454, blue: 0.1873997748, alpha: 1),
+            buttonPressed: #selector(logoutButtonPressed),
+            buttonReleased: #selector(logoutButtonReleased)
+        )
+        return button.createButton()
     }()
     
     private lazy var changePasswordButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Change Password", for: .normal)
-        button.backgroundColor = .blue
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .heavy)
-        button.layer.cornerRadius = 10
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        let button = FilledButtonFactory(
+            title: "Change Password",
+            color: .blue,
+            buttonPressed: #selector(changePasswordButtonPressed),
+            buttonReleased: #selector(changePasswordButtonReleased)
+        )
+        return button.createButton()
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +41,13 @@ final class SettingsView: UIViewController {
     
     private func setupView() {
         view.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
-        
-        view.addSubview(logoutButton)
-        view.addSubview(changePasswordButton)
+        setupSubviews(logoutButton, changePasswordButton)
+    }
+    
+    private func setupSubviews(_ subviews: UIView...) {
+        subviews.forEach { subview in
+            view.addSubview(subview)
+        }
     }
     
     private func setupConstraints() {
@@ -56,5 +63,45 @@ final class SettingsView: UIViewController {
             changePasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             changePasswordButton.heightAnchor.constraint(equalToConstant: 60),
         ])
+    }
+    
+    @objc func logoutButtonPressed() {
+        logoutButton.backgroundColor = #colorLiteral(red: 0.5955260396, green: 0.2014748454, blue: 0.1873997748, alpha: 1)
+        
+        viewModel.authManager.delete()
+        presentingViewController?.dismiss(animated: true)
+    }
+    
+    @objc func logoutButtonReleased() {
+        logoutButton.backgroundColor = #colorLiteral(red: 0.5955260396, green: 0.2014748454, blue: 0.1873997748, alpha: 0.301660803)
+    }
+    
+    @objc func changePasswordButtonPressed() {
+        changePasswordButton.backgroundColor = .blue
+        
+        let alertController = UIAlertController(
+            title: "Изменение пароля",
+            message: "Введите ваш новый пароль",
+            preferredStyle: .alert
+        )
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Новый пароль"
+            textField.isSecureTextEntry = true
+        }
+        
+        let okAction = UIAlertAction(title: "Ок", style: .default) { [unowned self] _ in
+            if let newPassword = alertController.textFields?.first?.text {
+                self.viewModel.authManager.update(password: newPassword)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func changePasswordButtonReleased() {
+        changePasswordButton.backgroundColor = UIColor(.blue.opacity(0.8))
     }
 }

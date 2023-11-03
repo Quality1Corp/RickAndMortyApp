@@ -9,9 +9,11 @@ import UIKit
 
 final class EpisodeListView: UICollectionViewController {
     
+    
     var character: Character!
     private var episode: Episode!
     
+    // MARK: - Initialization
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20 , left: 60, bottom: 0, right: 60)
@@ -22,6 +24,7 @@ final class EpisodeListView: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
@@ -31,11 +34,11 @@ final class EpisodeListView: UICollectionViewController {
         setupNavigationBar()
     }
     
+    // MARK: - Private Methods
     @objc private func goBack() {
         navigationController?.popViewController(animated: true)
     }
     
-    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Episodes"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -74,6 +77,7 @@ extension EpisodeListView {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension EpisodeListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: UIScreen.main.bounds.width - 32, height: 86)

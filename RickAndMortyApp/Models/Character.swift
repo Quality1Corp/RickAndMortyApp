@@ -8,7 +8,13 @@
 import Foundation
 
 struct RickAndMorty: Decodable {
+    let info: Info
     let results: [Character]
+}
+
+struct Info: Decodable {
+    let next: String?
+    var prev: String?
 }
 
 struct Character: Decodable {

@@ -20,46 +20,29 @@ final class LoginView: UIViewController {
     }()
     
     private lazy var loginTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter your login"
-        textField.font = .boldSystemFont(ofSize: 18)
-        textField.textAlignment = .center
-        
-        textField.layer.shadowColor = UIColor.black.cgColor
-        textField.layer.shadowOpacity = 0.4
-        textField.layer.shadowOffset = CGSize(width: 15, height: 15)
-        
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+        let textField = ShadowTextField(
+            placeholder: "Enter your login",
+            isSecure: false
+        )
+        return textField.createTextField()
     }()
     
     private lazy var passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "Enter your password"
-        textField.font = .boldSystemFont(ofSize: 18)
-        textField.textAlignment = .center
-        textField.isSecureTextEntry = true
-        
-        textField.layer.shadowColor = UIColor.black.cgColor
-        textField.layer.shadowOpacity = 0.4
-        textField.layer.shadowOffset = CGSize(width: 15, height: 15)
-        
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+        let textField = ShadowTextField(
+            placeholder: "Enter your password",
+            isSecure: true
+        )
+        return textField.createTextField()
     }()
     
     private lazy var loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Login", for: .normal)
-        button.tintColor = .white
-        button.backgroundColor = #colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1)
-        button.titleLabel?.font = UIFont(name: "Avenir Next", size: 20)
-        button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        let button = FilledButtonFactory(
+            title: "Login",
+            color: #colorLiteral(red: 0, green: 0.1532281041, blue: 0.6397063136, alpha: 1),
+            buttonPressed: #selector(loginButtonPressed),
+            buttonReleased: #selector(loginButtonReleased)
+        )
+        return button.createButton()
     }()
     
     // MARK: - View Life Cycle
@@ -74,10 +57,18 @@ final class LoginView: UIViewController {
     private func setupViews() {
         view.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
         
-        view.addSubview(logoImageView)
-        view.addSubview(loginTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(loginButton)
+        setupSubviews(
+            logoImageView,
+            loginTextField,
+            passwordTextField,
+            loginButton
+        )
+    }
+    
+    private func setupSubviews(_ subviews: UIView...) {
+        subviews.forEach { subview in
+            view.addSubview(subview)
+        }
     }
     
     private func setupConstraints() {
@@ -99,12 +90,20 @@ final class LoginView: UIViewController {
             
             loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
-            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70)
+            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
+            loginButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
     @objc func loginButtonPressed() {
-        let listCharactersView = ListCharactersView()
-        navigationController?.pushViewController(listCharactersView, animated: true)
+        loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.1532281041, blue: 0.6397063136, alpha: 1)
+        
+        let tabBarVC = TabBarController()
+        tabBarVC.modalPresentationStyle = .fullScreen
+        present(tabBarVC, animated: true)
+    }
+    
+    @objc func loginButtonReleased() {
+        loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.2328981161, blue: 0.7651376128, alpha: 0.5)
     }
 }

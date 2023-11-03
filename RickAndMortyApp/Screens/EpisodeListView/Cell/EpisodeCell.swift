@@ -21,33 +21,27 @@ final class EpisodeCell: UICollectionViewCell {
     }()
     
     private lazy var nameEpisodeLabel: UILabel = {
-        var label = UILabel()
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 18)
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        var label = DefaultLabelFactory(
+            font: .boldSystemFont(ofSize: 17),
+            color: .black
+        )
+        return label.createLabel()
     }()
     
     private lazy var episodeNumberLabel: UILabel = {
-        var label = UILabel()
-        label.textColor = #colorLiteral(red: 0, green: 0.5090747476, blue: 0, alpha: 1)
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        var label = DefaultLabelFactory(
+            font: .systemFont(ofSize: 15),
+            color: #colorLiteral(red: 0, green: 0.5090747476, blue: 0, alpha: 1)
+        )
+        return label.createLabel()
     }()
     
     private lazy var dateLabel: UILabel = {
-        var label = UILabel()
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        var label = DefaultLabelFactory(
+            font: .systemFont(ofSize: 14),
+            color: .gray
+        )
+        return label.createLabel()
     }()
     
     override init(frame: CGRect) {
