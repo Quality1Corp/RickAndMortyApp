@@ -7,7 +7,13 @@
 
 import Foundation
 
-final class ListCharactersViewModel {
+protocol ListCharactersViewModelProtocol {
+    var rickAndMorty: RickAndMorty? { get }
+    func fetchCharacter(from url: String, closure: @escaping(RickAndMorty) -> Void)
+    func numberOfCharacters() -> Int
+}
+
+final class ListCharactersViewModel: ListCharactersViewModelProtocol {
     
     var rickAndMorty: RickAndMorty?
     private let networkManager = NetworkManager.shared

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class ListCharactersCell: UITableViewCell {
     
@@ -20,26 +21,27 @@ final class ListCharactersCell: UITableViewCell {
     }()
     
     lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.numberOfLines = 2
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let label = DefaultLabelFactory(
+            font: .boldSystemFont(ofSize: 20),
+            color: .black
+        )
+        return label.createLabel()
     }()
     
     lazy var statusLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let label = DefaultLabelFactory(
+            font: .systemFont(ofSize: 18),
+            color: #colorLiteral(red: 0, green: 0.5090747476, blue: 0, alpha: 1)
+        )
+        return label.createLabel()
     }()
     
     lazy var genderLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let label = DefaultLabelFactory(
+            font: .systemFont(ofSize: 18),
+            color: #colorLiteral(red: 0, green: 0.5090747476, blue: 0, alpha: 1)
+        )
+        return label.createLabel()
     }()
     
     lazy var charImage: UIImageView = {
@@ -67,39 +69,52 @@ final class ListCharactersCell: UITableViewCell {
         statusLabel.text = "Status: \(character?.status ?? "")"
         genderLabel.text = "Gender: \(character?.gender ?? "")"
         
-        guard let url = URL(string: character?.image ?? "") else { return }
+        let imageUrl = URL(string: character?.image ?? "")
         
-        networkManager.fetchImage(from: url) { [unowned self] result in
-            switch result {
-                case .success(let imageData):
-                    
-                    if let cachedImageData = self.networkManager.imageCache.object(forKey: url as NSURL) {
-                        print("Данные отображены из кеша")
-                    } else {
-                        print("Данные получены из сети")
+        // Загрузка изображение в кеш
+        charImage.sd_setImage(with: imageUrl) { (image, error, _, _) in
+            if let error = error {
+                print("Ошибка загрузки изображения: \(error.localizedDescription)")
+            } else {
+                print("Изображение успешно загруженно")
+            }
+            
+            // Сохранение изображения в память устройства
+            if let image = image {
+                let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+                let imagePath = documentsDirectory?.appendingPathComponent("image.jpg")
+                if let imagePath = imagePath {
+                    do {
+                        try image.jpegData(compressionQuality: 1)?.write(to: imagePath)
+                        print("Изображение сохранено по пути: \(imagePath)")
+                    } catch {
+                        print("Ошибка сохранения изображения: \(error.localizedDescription)")
                     }
-                    DispatchQueue.main.async {
-                        let image = UIImage(data: imageData)
-                        self.charImage.image = image
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
+                }
             }
         }
     }
     
     private func setupView() {
-        contentView.addSubview(contentContainerView)
-        contentView.addSubview(charImage)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(statusLabel)
-        contentView.addSubview(genderLabel)
+        setupSubviews(
+            contentContainerView,
+            charImage,
+            nameLabel,
+            statusLabel,
+            genderLabel
+        )
         
         contentContainerView.layer.borderWidth = 2
         contentContainerView.layer.borderColor = UIColor.blue.cgColor
         contentContainerView.layer.cornerRadius = 10
         contentContainerView.layer.masksToBounds = true
         contentView.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
+    }
+    
+    private func setupSubviews(_ subviews: UIView...) {
+        subviews.forEach { subview in
+            contentView.addSubview(subview)
+        }
     }
     
     private func setupConstraints() {
@@ -116,7 +131,7 @@ final class ListCharactersCell: UITableViewCell {
             
             nameLabel.topAnchor.constraint(equalTo: contentContainerView.topAnchor, constant: 20),
             nameLabel.leadingAnchor.constraint(equalTo: charImage.trailingAnchor, constant: 20),
-            nameLabel.trailingAnchor.constraint(equalTo: contentContainerView.trailingAnchor, constant: -5),
+            nameLabel.trailingAnchor.constraint(equalTo: contentContainerView.trailingAnchor, constant: -10),
             statusLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             statusLabel.leadingAnchor.constraint(equalTo: charImage.trailingAnchor, constant: 20),
             genderLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 5),

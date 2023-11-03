@@ -9,9 +9,38 @@ import UIKit
 
 final class ListCharactersView: UITableViewController {
     
+    // MARK: - Private properties
     private var character: RickAndMorty?
     private var viewModel = ListCharactersViewModel()
+    private var currentPage = 1 {
+        didSet {
+            if currentPage == 1 {
+                previousPageBarButton.isEnabled = false
+            }
+        }
+    }
     
+    private lazy var previousPageBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        barButton.title = "Previous page"
+        barButton.tintColor = .white
+        barButton.style = .done
+        barButton.target = self
+        barButton.action = #selector(updateCharacters)
+        return barButton
+    }()
+    
+    private lazy var nextPageBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem()
+        barButton.title = "Next page"
+        barButton.tintColor = .white
+        barButton.style = .done
+        barButton.target = self
+        barButton.action = #selector(updateCharacters)
+        return barButton
+    }()
+    
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,10 +51,36 @@ final class ListCharactersView: UITableViewController {
         
         setupNavigationBar()
         setupView()
+        previousPageBarButton.isEnabled = false
         
         viewModel.fetchCharacter(from: Link.rickAndMortyURL.rawValue) { [unowned self] result in
             self.character = result
             self.tableView.reloadData()
+        }
+    }
+    
+    // MARK: - Private methods
+    @objc private func updateCharacters(_ sender: UIBarButtonItem) {
+        if sender == nextPageBarButton {
+            viewModel.fetchCharacter(from: character?.info.next ?? "") { [unowned self] result in
+                self.character = result
+                self.tableView.reloadData()
+            }
+            
+            currentPage += 1
+            
+            if currentPage == 43 {
+                nextPageBarButton.isEnabled = false
+            }
+            previousPageBarButton.isEnabled = true
+        } else {
+            viewModel.fetchCharacter(from: character?.info.prev ?? "") { [unowned self] result in
+                self.character = result
+                self.tableView.reloadData()
+            }
+            if currentPage > 1 {
+                currentPage -= 1
+            }
         }
     }
     
@@ -42,6 +97,9 @@ final class ListCharactersView: UITableViewController {
         
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        
+        navigationItem.leftBarButtonItem = previousPageBarButton
+        navigationItem.rightBarButtonItem = nextPageBarButton
     }
     
     private func setupView() {
