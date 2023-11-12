@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class LoginView: UIViewController {
-    
-    private let viewModel = LoginViewModel()
+final class LoginView: UIViewController, LoginViewDelegate {
     
     // MARK: - Private properties
+    private let viewModel = LoginViewModel()
+    
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
@@ -19,15 +19,15 @@ final class LoginView: UIViewController {
         return imageView
     }()
     
-    private lazy var loginTextField: UITextField = {
+    lazy var loginTextField: UITextField = {
         let textField = ShadowTextField(
             placeholder: "Enter your login",
-            isSecure: false
+            isSecure: nil
         )
         return textField.createTextField()
     }()
     
-    private lazy var passwordTextField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let textField = ShadowTextField(
             placeholder: "Enter your password",
             isSecure: true
@@ -53,9 +53,45 @@ final class LoginView: UIViewController {
         setupConstraints()
     }
     
+    // MARK: - Public methods
+    func getLogin() -> String {
+        loginTextField.text ?? ""
+    }
+    
+    func getPassword() -> String {
+        passwordTextField.text ?? ""
+    }
+    
+    func hideGesture() -> UIGestureRecognizer {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(
+            dismissKeyboard
+        ))
+        return tapGesture
+    }
+    
+    @objc func loginButtonPressed() {
+        loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.1532281041, blue: 0.6397063136, alpha: 1)
+        if loginTextField.text == LoginViewModel.login, passwordTextField.text == LoginViewModel.password {
+            viewModel.saveDataKeychain()
+            
+            let tabBarVC = TabBarController()
+            tabBarVC.modalPresentationStyle = .fullScreen
+            present(tabBarVC, animated: true)
+        }
+    }
+    
+    @objc func loginButtonReleased() {
+        loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.2328981161, blue: 0.7651376128, alpha: 0.5)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     // MARK: - Private methods
     private func setupViews() {
         view.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
+        viewModel.delegate = self
         
         setupSubviews(
             logoImageView,
@@ -63,6 +99,8 @@ final class LoginView: UIViewController {
             passwordTextField,
             loginButton
         )
+        
+        view.addGestureRecognizer(hideGesture())
     }
     
     private func setupSubviews(_ subviews: UIView...) {
@@ -93,17 +131,5 @@ final class LoginView: UIViewController {
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
             loginButton.heightAnchor.constraint(equalToConstant: 40)
         ])
-    }
-    
-    @objc func loginButtonPressed() {
-        loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.1532281041, blue: 0.6397063136, alpha: 1)
-        
-        let tabBarVC = TabBarController()
-        tabBarVC.modalPresentationStyle = .fullScreen
-        present(tabBarVC, animated: true)
-    }
-    
-    @objc func loginButtonReleased() {
-        loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.2328981161, blue: 0.7651376128, alpha: 0.5)
     }
 }
