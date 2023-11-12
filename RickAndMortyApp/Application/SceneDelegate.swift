@@ -16,7 +16,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
-        window?.rootViewController = LoginView()
+        
+        if AuthManager.shared.checkValue(
+            username: LoginViewModel.login,
+            password: LoginViewModel.password
+        ) {
+            window?.rootViewController = TabBarController()
+        } else {
+            window?.rootViewController = LoginView()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -11,6 +11,7 @@ final class EpisodeCell: UICollectionViewCell {
     
     static let identifier = "seriesCell"
     
+    // MARK: - Private properties
     private lazy var mainView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -44,6 +45,7 @@ final class EpisodeCell: UICollectionViewCell {
         return label.createLabel()
     }()
     
+    // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,6 +57,7 @@ final class EpisodeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public methods
     func configure(_ episodeURL: String) {
         NetworkManager.shared.fetch(Episode.self, from: episodeURL) { [weak self] result in
             switch result {
@@ -68,6 +71,7 @@ final class EpisodeCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - Private methods
     private func setupView() {
         contentView.addSubview(mainView)
         mainView.addSubview(nameEpisodeLabel)
@@ -94,6 +98,7 @@ final class EpisodeCell: UICollectionViewCell {
         ])
     }
     
+    /// Функция для форматирования номера эпизода, "S01E01" -> "Episode 1, Season: 1"
     private func formatEpisodeNumber(_ episodeNumber: String) -> String {
         if let seasonRange = episodeNumber.range(of: "S(\\d{2})", options: .regularExpression),
            let episodeRange = episodeNumber.range(of: "E(\\d{2})", options: .regularExpression) {

@@ -12,5 +12,10 @@ protocol SettingsViewModelProtocol {
 }
 
 final class SettingsViewModel: SettingsViewModelProtocol {
+    
     let authManager = AuthManager.shared
+    
+    func deleteDataKeychain() {
+        authManager.delete()
+    }
 }

@@ -12,6 +12,7 @@ final class ListCharactersView: UITableViewController {
     // MARK: - Private properties
     private var character: RickAndMorty?
     private var viewModel = ListCharactersViewModel()
+    
     private var currentPage = 1 {
         didSet {
             if currentPage == 1 {
@@ -44,19 +45,8 @@ final class ListCharactersView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(
-            ListCharactersCell.self,
-            forCellReuseIdentifier: ListCharactersCell.identifier
-        )
-        
         setupNavigationBar()
         setupView()
-        previousPageBarButton.isEnabled = false
-        
-        viewModel.fetchCharacter(from: Link.rickAndMortyURL.rawValue) { [unowned self] result in
-            self.character = result
-            self.tableView.reloadData()
-        }
     }
     
     // MARK: - Private methods
@@ -106,6 +96,17 @@ final class ListCharactersView: UITableViewController {
         tableView.backgroundColor = #colorLiteral(red: 0.6748661399, green: 0.8078844547, blue: 0.6908774376, alpha: 1)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+        
+        tableView.register(
+            ListCharactersCell.self,
+            forCellReuseIdentifier: ListCharactersCell.identifier
+        )
+        previousPageBarButton.isEnabled = false
+        
+        viewModel.fetchCharacter(from: Link.rickAndMortyURL.rawValue) { [unowned self] result in
+            self.character = result
+            self.tableView.reloadData()
+        }
     }
 }
 

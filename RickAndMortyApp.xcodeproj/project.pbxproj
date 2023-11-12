@@ -175,11 +175,11 @@
 			children = (
 				66A59A872AD4001900602044 /* Application */,
 				66E321B62AD567D900E983BA /* Models */,
+				66CC75C82AF5146200AA453B /* Factory */,
 				66A59A892AD4006000602044 /* Screens */,
 				66FECB252AD48CAA000DFECC /* Services */,
 				66A59A882AD4003E00602044 /* Resources */,
 				66D5DA602AD1B89A00871DB4 /* Info.plist */,
-				66CC75C82AF5146200AA453B /* Factory */,
 			);
 			path = RickAndMortyApp;
 			sourceTree = "<group>";

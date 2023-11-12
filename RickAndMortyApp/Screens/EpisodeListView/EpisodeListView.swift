@@ -9,7 +9,6 @@ import UIKit
 
 final class EpisodeListView: UICollectionViewController {
     
-    
     var character: Character!
     private var episode: Episode!
     
@@ -92,6 +91,7 @@ extension EpisodeListView: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - Extension EpisodeListView
 extension EpisodeListView {
     func fetchEpisode(from url: String) {
         NetworkManager.shared.fetch(Episode.self, from: url) { [weak self] result in

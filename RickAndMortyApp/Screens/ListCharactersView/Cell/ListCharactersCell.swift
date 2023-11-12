@@ -11,8 +11,8 @@ import SDWebImage
 final class ListCharactersCell: UITableViewCell {
     
     static let identifier = "LocationCollectionViewCell"
-    private let networkManager = NetworkManager.shared
     
+    // MARK: - Public properties
     lazy var contentContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -53,6 +53,7 @@ final class ListCharactersCell: UITableViewCell {
         return imageView
     }()
     
+    // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -64,6 +65,7 @@ final class ListCharactersCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public methods
     func configure(with character: Character?) {
         nameLabel.text = character?.name
         statusLabel.text = "Status: \(character?.status ?? "")"
@@ -95,6 +97,7 @@ final class ListCharactersCell: UITableViewCell {
         }
     }
     
+    // MARK: - Property methods
     private func setupView() {
         setupSubviews(
             contentContainerView,
